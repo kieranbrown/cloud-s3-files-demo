@@ -3,7 +3,11 @@ import { index as explorerIndex } from '@/actions/App/Http/Controllers/ExplorerC
 import { destroy as destroyFile } from '@/actions/App/Http/Controllers/FileController';
 import UploadController from '@/actions/App/Http/Controllers/UploadController';
 import { Breadcrumbs } from '@/components/explorer/breadcrumbs';
-import { ConfirmDialog, NewFolderDialog } from '@/components/explorer/dialogs';
+import {
+    ConfirmDialog,
+    NewFileDialog,
+    NewFolderDialog,
+} from '@/components/explorer/dialogs';
 import { DirectoryTree } from '@/components/explorer/directory-tree';
 import { DiskSwitcher } from '@/components/explorer/disk-switcher';
 import { FileList } from '@/components/explorer/file-list';
@@ -18,6 +22,7 @@ import { Head, router, useForm } from '@inertiajs/react';
 import {
     ArrowUp,
     CloudUpload,
+    FilePlus,
     FolderPlus,
     Loader2,
     RefreshCw,
@@ -46,6 +51,7 @@ export default function Explorer({
     const [previewExpanded, setPreviewExpanded] = useState(false);
     const [filter, setFilter] = useState('');
     const [creatingFolder, setCreatingFolder] = useState(false);
+    const [creatingFile, setCreatingFile] = useState(false);
     const [pendingDelete, setPendingDelete] = useState<Entry | null>(null);
     const [deleting, setDeleting] = useState(false);
     const [dragging, setDragging] = useState(false);
@@ -198,6 +204,7 @@ export default function Explorer({
                 event.key === 'Escape' &&
                 selectedPath &&
                 !creatingFolder &&
+                !creatingFile &&
                 !pendingDelete
             ) {
                 setSelectedPath(null);
@@ -207,7 +214,7 @@ export default function Explorer({
         window.addEventListener('keydown', onKeyDown);
 
         return () => window.removeEventListener('keydown', onKeyDown);
-    }, [selectedPath, creatingFolder, pendingDelete]);
+    }, [selectedPath, creatingFolder, creatingFile, pendingDelete]);
 
     const title = path ? (path.split('/').pop() ?? path) : 'Files';
     const progress = upload.progress?.percentage ?? null;
@@ -286,6 +293,13 @@ export default function Explorer({
                     >
                         <FolderPlus />
                         <span className="hidden sm:inline">New folder</span>
+                    </Button>
+                    <Button
+                        variant="secondary"
+                        onClick={() => setCreatingFile(true)}
+                    >
+                        <FilePlus />
+                        <span className="hidden sm:inline">New file</span>
                     </Button>
                     <Button
                         variant="primary"
@@ -441,12 +455,24 @@ export default function Explorer({
                 </div>
             </div>
 
-            <NewFolderDialog
-                open={creatingFolder}
-                path={path}
-                onClose={() => setCreatingFolder(false)}
-                onCreated={(name) => notify('success', `Created ${name}`)}
-            />
+            {creatingFolder && (
+                <NewFolderDialog
+                    path={path}
+                    onClose={() => setCreatingFolder(false)}
+                    onCreated={(name) => notify('success', `Created ${name}`)}
+                />
+            )}
+
+            {creatingFile && (
+                <NewFileDialog
+                    path={path}
+                    onClose={() => setCreatingFile(false)}
+                    onCreated={(createdPath, name) => {
+                        notify('success', `Created ${name}`);
+                        setSelectedPath(createdPath);
+                    }}
+                />
+            )}
 
             <ConfirmDialog
                 open={pendingDelete !== null}

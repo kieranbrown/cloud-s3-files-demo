@@ -13,7 +13,7 @@ class UploadFilesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'path' => ['present', 'string'],
+            'path' => ['present', 'nullable', 'string'],
             'files' => ['required', 'array', 'min:1'],
             'files.*' => ['required', 'file'],
         ];

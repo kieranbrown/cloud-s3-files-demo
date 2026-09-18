@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Explorer\FileBrowser;
+use App\Http\Requests\StoreFileRequest;
 use App\Http\Requests\UpdateFileRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -12,6 +13,20 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class FileController
 {
     public function __construct(protected FileBrowser $browser) {}
+
+    /**
+     * Create a file from the given text inside a directory.
+     */
+    public function store(StoreFileRequest $request): RedirectResponse
+    {
+        $this->browser->createFile(
+            $request->string('path')->toString(),
+            $request->string('name')->toString(),
+            $request->string('content')->toString(),
+        );
+
+        return back();
+    }
 
     /**
      * Describe a file, including its contents when it is previewable text.

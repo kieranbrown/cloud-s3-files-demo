@@ -259,6 +259,26 @@ class FileBrowser
     }
 
     /**
+     * Create a new file inside a directory from the given contents.
+     */
+    public function createFile(string $parent, string $name, string $contents): string
+    {
+        $path = $this->normalize($this->normalize($parent).'/'.$this->safeName($name));
+
+        if ($this->disk()->exists($path)) {
+            throw ValidationException::withMessages([
+                'name' => 'Something with that name already exists here.',
+            ]);
+        }
+
+        if (! $this->disk()->put($path, $contents)) {
+            throw new RuntimeException("Unable to create [{$path}].");
+        }
+
+        return $path;
+    }
+
+    /**
      * Create a new directory inside a parent directory.
      */
     public function createDirectory(string $parent, string $name): string

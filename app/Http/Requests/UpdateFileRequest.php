@@ -15,7 +15,7 @@ class UpdateFileRequest extends FormRequest
     {
         return [
             'path' => ['required', 'string'],
-            'content' => ['present', 'string', 'max:'.FileBrowser::MAX_TEXT_BYTES],
+            'content' => ['present', 'nullable', 'string', 'max:'.FileBrowser::MAX_TEXT_BYTES],
         ];
     }
 }

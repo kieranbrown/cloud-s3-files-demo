@@ -17,6 +17,7 @@ Route::prefix('explorer')->name('explorer.')->group(function (): void {
     Route::delete('directories', [DirectoryController::class, 'destroy'])->name('directories.destroy');
 
     Route::get('files', [FileController::class, 'show'])->name('files.show');
+    Route::post('files', [FileController::class, 'store'])->name('files.store');
     Route::put('files', [FileController::class, 'update'])->name('files.update');
     Route::delete('files', [FileController::class, 'destroy'])->name('files.destroy');
     Route::get('files/stream', [FileController::class, 'stream'])->name('files.stream');
