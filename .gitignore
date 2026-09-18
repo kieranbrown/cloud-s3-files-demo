@@ -30,6 +30,7 @@ npm-debug.log
 *.tfstate
 *.tfstate.*
 *.tfvars
+*.tfplan
 
 # Playwright MCP output
 /.playwright-mcp
