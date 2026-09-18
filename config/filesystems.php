@@ -20,7 +20,6 @@ return [
         's3-files' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),
-            'url' => rtrim((string) env('APP_URL'), '/').'/storage/s3-files',
             'serve' => true,
             'throw' => false,
             'report' => false,
