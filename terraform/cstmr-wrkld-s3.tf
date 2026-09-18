@@ -28,7 +28,7 @@ variable "customer_workload_role_name" {
 variable "environment_uuid" {
   description = "Environment namespace whose pods should reach the demo bucket. Must match the namespace's `kubernetes-namespace` Pod Identity session tag."
   type        = string
-  default     = "env-a148273b-56ba-4368-9adf-4a2a2088cc25"
+  default     = "env-a2c6b234-995c-4691-bb85-9af81f612aac"
 }
 
 variable "environment_uuid_tag_key" {

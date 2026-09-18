@@ -237,18 +237,15 @@ resource "aws_s3files_synchronization_configuration" "files" {
   }
 }
 
-resource "aws_s3files_access_point" "files" {
-  file_system_id = aws_s3files_file_system.files.id
-
-  posix_user {
-    gid = 1000
-    uid = 1000
-  }
-
-  root_directory {
-    path = "/"
-  }
-}
+# No access point. Mounting the file system itself maps the bucket root to the
+# mount path, so objects are top-level keys. An access point would confine the
+# mount to a subdirectory and prefix every key with it.
+#
+# The trade-off is POSIX ownership. An access point enforces its own uid/gid on
+# every operation; without one the container's own uid is used, and a fresh
+# file system's root is root:root 0755, which uid 33 cannot write to. The root
+# is chowned to 33:33 once, out of band — there is no AWS API for it, and an
+# access point can only set ownership on a directory it creates.
 
 #
 # Network access to the file system. The subnets are dual-stack, so the mount
@@ -324,11 +321,6 @@ output "bucket_name" {
 output "file_system_id" {
   description = "S3 Files file system ID."
   value       = aws_s3files_file_system.files.id
-}
-
-output "access_point_id" {
-  description = "S3 Files access point ID."
-  value       = aws_s3files_access_point.files.id
 }
 
 output "mount_target_addresses" {
