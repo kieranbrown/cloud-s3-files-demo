@@ -1,0 +1,91 @@
+@import 'tailwindcss';
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
+@theme {
+    --font-sans:
+        'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'Noto Color Emoji';
+    --font-mono:
+        'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+        'Liberation Mono', 'Courier New', monospace;
+
+    --color-laravel: #ff2d20;
+    --color-laravel-hover: #e6281c;
+}
+
+:root {
+    color-scheme: light dark;
+}
+
+html,
+body {
+    height: 100%;
+    overscroll-behavior: none;
+}
+
+/* Thin, unobtrusive scrollbars that match both themes. */
+.scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, currentColor 18%, transparent)
+        transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background: color-mix(in oklab, currentColor 18%, transparent);
+}
+
+/* Shiki output: transparent background, gutter line numbers. */
+.shiki {
+    background-color: transparent !important;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.65;
+    tab-size: 4;
+}
+
+.shiki code {
+    display: block;
+    counter-reset: line;
+    padding: 1rem 1.25rem 1.5rem 0;
+}
+
+.shiki .line::before {
+    counter-increment: line;
+    content: counter(line);
+    display: inline-block;
+    width: 3.5rem;
+    padding-right: 1.25rem;
+    text-align: right;
+    user-select: none;
+    color: light-dark(#a3a3a3, #525252);
+}
+
+/* Fallback plain-text view shares the same gutter treatment. */
+.code-plain {
+    counter-reset: line;
+}
+
+.code-plain .line {
+    display: block;
+    min-height: 1.65em;
+}
+
+.code-plain .line::before {
+    counter-increment: line;
+    content: counter(line);
+    display: inline-block;
+    width: 3.5rem;
+    padding-right: 1.25rem;
+    text-align: right;
+    user-select: none;
+    color: light-dark(#a3a3a3, #525252);
+}
