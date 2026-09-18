@@ -48,7 +48,7 @@ export function Dialog({ open, onClose, children, className }: DialogProps) {
             />
             <div
                 className={cn(
-                    'relative w-full max-w-md rounded-2xl border border-neutral-200 bg-white p-6 shadow-2xl dark:border-white/10 dark:bg-neutral-900',
+                    'relative max-h-[85dvh] w-full max-w-md scrollbar-thin overflow-y-auto rounded-2xl border border-neutral-200 bg-white p-5 shadow-2xl sm:p-6 dark:border-white/10 dark:bg-neutral-900',
                     className,
                 )}
             >
@@ -141,7 +141,7 @@ export function NewFolderDialog({
                         }
                         placeholder="reports"
                         className={cn(
-                            'h-10 w-full rounded-lg border bg-white px-3 text-sm text-neutral-900 outline-none placeholder:text-neutral-400 focus:ring-2 dark:bg-neutral-950 dark:text-white',
+                            'h-10 w-full rounded-lg border bg-white px-3 text-base text-neutral-900 outline-none placeholder:text-neutral-400 focus:ring-2 sm:text-sm dark:bg-neutral-950 dark:text-white',
                             form.errors.name
                                 ? 'border-red-400 focus:ring-red-500/30'
                                 : 'focus:border-laravel focus:ring-laravel/25 border-neutral-200 dark:border-white/10',
@@ -149,7 +149,7 @@ export function NewFolderDialog({
                     />
                     <DialogError message={form.errors.name} />
                 </div>
-                <div className="flex items-center justify-end gap-2">
+                <div className="flex flex-wrap items-center justify-end gap-2">
                     <DialogError message={form.errors.path} />
                     <Button variant="ghost" onClick={onClose}>
                         Cancel
@@ -241,7 +241,7 @@ export function NewFileDialog({
                         }
                         placeholder="notes.md"
                         className={cn(
-                            'h-10 w-full rounded-lg border bg-white px-3 text-sm text-neutral-900 outline-none placeholder:text-neutral-400 focus:ring-2 dark:bg-neutral-950 dark:text-white',
+                            'h-10 w-full rounded-lg border bg-white px-3 text-base text-neutral-900 outline-none placeholder:text-neutral-400 focus:ring-2 sm:text-sm dark:bg-neutral-950 dark:text-white',
                             form.errors.name
                                 ? 'border-red-400 focus:ring-red-500/30'
                                 : 'focus:border-laravel focus:ring-laravel/25 border-neutral-200 dark:border-white/10',
@@ -275,7 +275,7 @@ export function NewFileDialog({
                         }}
                         placeholder="Type anything. Leave it empty for an empty file."
                         className={cn(
-                            'block w-full resize-y rounded-lg border bg-white p-3 font-mono text-[0.8125rem] leading-[1.65] text-neutral-800 outline-none placeholder:font-sans placeholder:text-neutral-400 focus:ring-2 dark:bg-neutral-950 dark:text-neutral-200',
+                            'block max-h-[45dvh] w-full resize-y rounded-lg border bg-white p-3 font-mono text-base leading-[1.65] text-neutral-800 outline-none placeholder:font-sans placeholder:text-neutral-400 focus:ring-2 sm:max-h-none sm:text-[0.8125rem] dark:bg-neutral-950 dark:text-neutral-200',
                             form.errors.content
                                 ? 'border-red-400 focus:ring-red-500/30'
                                 : 'focus:border-laravel focus:ring-laravel/25 border-neutral-200 dark:border-white/10',
@@ -283,7 +283,7 @@ export function NewFileDialog({
                     />
                     <DialogError message={form.errors.content} />
                 </div>
-                <div className="flex items-center justify-end gap-2">
+                <div className="flex flex-wrap items-center justify-end gap-2">
                     <DialogError message={form.errors.path} />
                     <Button variant="ghost" onClick={onClose}>
                         Cancel
@@ -340,7 +340,7 @@ export function ConfirmDialog({
                         </div>
                     </div>
                 </div>
-                <div className="flex justify-end gap-2">
+                <div className="flex flex-wrap justify-end gap-2">
                     <Button variant="ghost" onClick={onClose}>
                         Cancel
                     </Button>

@@ -89,3 +89,16 @@ body {
     user-select: none;
     color: light-dark(#a3a3a3, #525252);
 }
+
+/* Narrow phones: reclaim the code gutter for the code itself. */
+@media (width < 40rem) {
+    .shiki code {
+        padding-right: 0.75rem;
+    }
+
+    .shiki .line::before,
+    .code-plain .line::before {
+        width: 2.25rem;
+        padding-right: 0.625rem;
+    }
+}

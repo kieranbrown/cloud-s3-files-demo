@@ -24,7 +24,7 @@ interface FileListProps {
 }
 
 const GRID =
-    'grid grid-cols-[minmax(0,1fr)_6rem_10rem_4.5rem] items-center gap-4 px-4';
+    'grid grid-cols-[minmax(0,1fr)_5rem_4.5rem] items-center gap-2 px-3 @xl:grid-cols-[minmax(0,1fr)_6rem_10rem_4.5rem] @xl:gap-4 @xl:px-4';
 
 export function FileList({
     entries,
@@ -75,7 +75,7 @@ export function FileList({
     };
 
     return (
-        <section className={cn('flex min-h-0 flex-col', className)}>
+        <section className={cn('@container flex min-h-0 flex-col', className)}>
             <div
                 className={cn(
                     GRID,
@@ -84,7 +84,7 @@ export function FileList({
             >
                 <span>Name</span>
                 <span className="text-right">Size</span>
-                <span>Modified</span>
+                <span className="hidden @xl:block">Modified</span>
                 <span />
             </div>
 
@@ -111,7 +111,7 @@ export function FileList({
                                     }
                                     className={cn(
                                         GRID,
-                                        'group h-11 cursor-default border-b border-neutral-100 text-sm transition-colors outline-none select-none focus-visible:bg-neutral-100 dark:border-white/5 dark:focus-visible:bg-white/5',
+                                        'group h-13 cursor-default border-b border-neutral-100 text-sm transition-colors outline-none select-none focus-visible:bg-neutral-100 @xl:h-11 dark:border-white/5 dark:focus-visible:bg-white/5',
                                         isSelected
                                             ? 'bg-neutral-100 shadow-[inset_2px_0_0_var(--color-laravel)] dark:bg-white/[0.06]'
                                             : 'hover:bg-neutral-50 dark:hover:bg-white/[0.03]',
@@ -122,15 +122,22 @@ export function FileList({
                                             entry={entry}
                                             className="size-[18px] shrink-0"
                                         />
-                                        <span
-                                            className={cn(
-                                                'truncate',
-                                                entry.type === 'directory'
-                                                    ? 'font-medium text-neutral-900 dark:text-neutral-100'
-                                                    : 'text-neutral-800 dark:text-neutral-200',
-                                            )}
-                                        >
-                                            {entry.name}
+                                        <span className="min-w-0">
+                                            <span
+                                                className={cn(
+                                                    'block truncate',
+                                                    entry.type === 'directory'
+                                                        ? 'font-medium text-neutral-900 dark:text-neutral-100'
+                                                        : 'text-neutral-800 dark:text-neutral-200',
+                                                )}
+                                            >
+                                                {entry.name}
+                                            </span>
+                                            <span className="block truncate text-[11px] text-neutral-400 @xl:hidden dark:text-neutral-500">
+                                                {formatRelative(
+                                                    entry.lastModified,
+                                                )}
+                                            </span>
                                         </span>
                                     </span>
                                     <span className="text-right font-mono text-xs text-neutral-500 tabular-nums dark:text-neutral-400">
@@ -139,12 +146,12 @@ export function FileList({
                                             : formatBytes(entry.size)}
                                     </span>
                                     <span
-                                        className="truncate text-xs text-neutral-500 dark:text-neutral-400"
+                                        className="hidden truncate text-xs text-neutral-500 @xl:block dark:text-neutral-400"
                                         title={entry.lastModified ?? undefined}
                                     >
                                         {formatRelative(entry.lastModified)}
                                     </span>
-                                    <span className="flex items-center justify-end gap-0.5 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100">
+                                    <span className="flex items-center justify-end gap-0.5 transition-opacity @xl:opacity-0 @xl:group-focus-within:opacity-100 @xl:group-hover:opacity-100">
                                         {entry.type === 'file' && (
                                             <a
                                                 href={downloadFile.url({
@@ -185,7 +192,7 @@ export function FileList({
                 )}
             </div>
 
-            <footer className="flex h-8 shrink-0 items-center gap-3 border-t border-neutral-200 px-4 text-[11px] text-neutral-400 dark:border-white/10 dark:text-neutral-500">
+            <footer className="flex h-8 shrink-0 items-center gap-3 border-t border-neutral-200 px-3 text-[11px] text-neutral-400 @xl:px-4 dark:border-white/10 dark:text-neutral-500">
                 <span>
                     {summary.directories}{' '}
                     {summary.directories === 1 ? 'folder' : 'folders'}

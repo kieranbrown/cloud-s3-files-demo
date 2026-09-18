@@ -238,22 +238,90 @@ export default function Explorer({
                 </div>
             )}
 
-            <div className="flex h-screen flex-col overflow-hidden bg-white text-neutral-900 antialiased dark:bg-neutral-950 dark:text-neutral-100">
-                <header className="flex h-14 shrink-0 items-center gap-3 border-b border-neutral-200 px-4 dark:border-white/10">
-                    <div className="flex items-center gap-2.5">
+            <div className="flex h-dvh flex-col overflow-hidden bg-white text-neutral-900 antialiased dark:bg-neutral-950 dark:text-neutral-100">
+                <header className="flex shrink-0 flex-wrap items-center gap-2 border-b border-neutral-200 px-3 py-2 lg:h-14 lg:flex-nowrap lg:gap-3 lg:px-4 lg:py-0 dark:border-white/10">
+                    <div className="order-1 flex items-center gap-2.5">
                         <LaravelMark className="text-laravel size-6" />
                         <span className="text-[15px] font-semibold tracking-tight">
                             Files
                         </span>
                     </div>
 
-                    <span className="hidden h-5 w-px bg-neutral-200 sm:block dark:bg-white/10" />
+                    <span className="order-2 hidden h-5 w-px bg-neutral-200 lg:block dark:bg-white/10" />
 
-                    <DiskSwitcher disk={disk} disks={disks} />
+                    <div className="order-3 ml-auto flex items-center gap-2 lg:order-7 lg:ml-0">
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            title="Refresh"
+                            aria-label="Refresh"
+                            onClick={refresh}
+                            disabled={refreshing}
+                        >
+                            <RefreshCw
+                                className={cn(refreshing && 'animate-spin')}
+                            />
+                        </Button>
+                        <Button
+                            variant="secondary"
+                            title="New folder"
+                            aria-label="New folder"
+                            onClick={() => setCreatingFolder(true)}
+                        >
+                            <FolderPlus />
+                            <span className="hidden sm:inline">New folder</span>
+                        </Button>
+                        <Button
+                            variant="secondary"
+                            title="New file"
+                            aria-label="New file"
+                            onClick={() => setCreatingFile(true)}
+                        >
+                            <FilePlus />
+                            <span className="hidden sm:inline">New file</span>
+                        </Button>
+                        <Button
+                            variant="primary"
+                            title="Upload"
+                            aria-label="Upload"
+                            onClick={() => fileInput.current?.click()}
+                            disabled={upload.processing}
+                        >
+                            {upload.processing ? (
+                                <Loader2 className="animate-spin" />
+                            ) : (
+                                <Upload />
+                            )}
+                            <span className="hidden sm:inline">
+                                {upload.processing && progress !== null
+                                    ? `Uploading ${Math.round(progress)}%`
+                                    : 'Upload'}
+                            </span>
+                        </Button>
+                        <input
+                            ref={fileInput}
+                            type="file"
+                            multiple
+                            className="hidden"
+                            onChange={onFilesPicked}
+                        />
+                    </div>
 
-                    <div className="flex-1" />
+                    {/* Forces the disk switcher and filter onto a second row on small screens. */}
+                    <span
+                        aria-hidden="true"
+                        className="order-4 w-full lg:hidden"
+                    />
 
-                    <label className="relative hidden md:block">
+                    <DiskSwitcher
+                        disk={disk}
+                        disks={disks}
+                        className="order-5 min-w-0 lg:order-3"
+                    />
+
+                    <div className="hidden lg:order-4 lg:block lg:flex-1" />
+
+                    <label className="relative order-6 min-w-0 flex-1 lg:order-5 lg:flex-none">
                         <Search className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-neutral-400" />
                         <input
                             type="search"
@@ -261,7 +329,7 @@ export default function Explorer({
                             onChange={(event) => setFilter(event.target.value)}
                             placeholder="Filter this folder"
                             aria-label="Filter this folder"
-                            className="focus:border-laravel focus:ring-laravel/20 h-9 w-56 rounded-lg border border-neutral-200 bg-neutral-50 pr-8 pl-9 text-sm text-neutral-900 transition-[width,box-shadow] outline-none placeholder:text-neutral-400 focus:w-72 focus:bg-white focus:ring-2 dark:border-white/10 dark:bg-white/5 dark:text-white dark:focus:bg-neutral-900"
+                            className="focus:border-laravel focus:ring-laravel/20 h-9 w-full rounded-lg border border-neutral-200 bg-neutral-50 pr-8 pl-9 text-base text-neutral-900 transition-[width,box-shadow] outline-none placeholder:text-neutral-400 focus:bg-white focus:ring-2 lg:w-56 lg:text-sm lg:focus:w-72 dark:border-white/10 dark:bg-white/5 dark:text-white dark:focus:bg-neutral-900"
                         />
                         {filter && (
                             <button
@@ -274,56 +342,6 @@ export default function Explorer({
                             </button>
                         )}
                     </label>
-
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        title="Refresh"
-                        aria-label="Refresh"
-                        onClick={refresh}
-                        disabled={refreshing}
-                    >
-                        <RefreshCw
-                            className={cn(refreshing && 'animate-spin')}
-                        />
-                    </Button>
-                    <Button
-                        variant="secondary"
-                        onClick={() => setCreatingFolder(true)}
-                    >
-                        <FolderPlus />
-                        <span className="hidden sm:inline">New folder</span>
-                    </Button>
-                    <Button
-                        variant="secondary"
-                        onClick={() => setCreatingFile(true)}
-                    >
-                        <FilePlus />
-                        <span className="hidden sm:inline">New file</span>
-                    </Button>
-                    <Button
-                        variant="primary"
-                        onClick={() => fileInput.current?.click()}
-                        disabled={upload.processing}
-                    >
-                        {upload.processing ? (
-                            <Loader2 className="animate-spin" />
-                        ) : (
-                            <Upload />
-                        )}
-                        <span className="hidden sm:inline">
-                            {upload.processing && progress !== null
-                                ? `Uploading ${Math.round(progress)}%`
-                                : 'Upload'}
-                        </span>
-                    </Button>
-                    <input
-                        ref={fileInput}
-                        type="file"
-                        multiple
-                        className="hidden"
-                        onChange={onFilesPicked}
-                    />
                 </header>
 
                 <div className="flex min-h-0 flex-1">
@@ -428,9 +446,10 @@ export default function Explorer({
                                     onDelete={setPendingDelete}
                                     notify={notify}
                                     className={cn(
+                                        'fixed inset-0 z-40 lg:static lg:z-auto',
                                         previewExpanded
-                                            ? 'flex-1'
-                                            : 'w-[46%] max-w-3xl shrink-0 border-l border-neutral-200 dark:border-white/10',
+                                            ? 'lg:flex-1'
+                                            : 'lg:w-[46%] lg:max-w-3xl lg:shrink-0 lg:border-l lg:border-neutral-200 lg:dark:border-white/10',
                                     )}
                                 />
                             )}

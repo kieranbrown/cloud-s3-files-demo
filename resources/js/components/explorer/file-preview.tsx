@@ -138,7 +138,7 @@ export function FilePreview({
                 className,
             )}
         >
-            <header className="flex h-14 shrink-0 items-center gap-3 border-b border-neutral-200 px-4 dark:border-white/10">
+            <header className="flex h-14 shrink-0 items-center gap-2 border-b border-neutral-200 px-3 sm:gap-3 sm:px-4 dark:border-white/10">
                 <FileIcon
                     entry={{
                         name,
@@ -242,18 +242,20 @@ export function FilePreview({
                             </Button>
                         </>
                     )}
-                    <span className="mx-1 h-5 w-px bg-neutral-200 dark:bg-white/10" />
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        title={expanded ? 'Restore' : 'Expand'}
-                        aria-label={
-                            expanded ? 'Restore preview' : 'Expand preview'
-                        }
-                        onClick={onToggleExpanded}
-                    >
-                        {expanded ? <Minimize2 /> : <Maximize2 />}
-                    </Button>
+                    <span className="hidden items-center lg:flex">
+                        <span className="mx-1 h-5 w-px bg-neutral-200 dark:bg-white/10" />
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            title={expanded ? 'Restore' : 'Expand'}
+                            aria-label={
+                                expanded ? 'Restore preview' : 'Expand preview'
+                            }
+                            onClick={onToggleExpanded}
+                        >
+                            {expanded ? <Minimize2 /> : <Maximize2 />}
+                        </Button>
+                    </span>
                     <Button
                         variant="ghost"
                         size="icon"
@@ -321,7 +323,7 @@ function Body({
                         value={draft}
                         onChange={(event) => onDraftChange(event.target.value)}
                         onKeyDown={onEditorKeyDown}
-                        className="block h-full w-full resize-none bg-transparent p-4 pl-6 font-mono text-[0.8125rem] leading-[1.65] text-neutral-800 outline-none dark:text-neutral-200"
+                        className="block h-full w-full resize-none bg-transparent p-4 font-mono text-base leading-[1.65] text-neutral-800 outline-none sm:pl-6 sm:text-[0.8125rem] dark:text-neutral-200"
                     />
                 );
             }
@@ -356,7 +358,7 @@ function Body({
 
         case 'image':
             return (
-                <div className="flex h-full items-center justify-center bg-[radial-gradient(circle_at_center,_rgba(0,0,0,0.04),_transparent_70%)] p-6 dark:bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.05),_transparent_70%)]">
+                <div className="flex h-full items-center justify-center bg-[radial-gradient(circle_at_center,_rgba(0,0,0,0.04),_transparent_70%)] p-3 sm:p-6 dark:bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.05),_transparent_70%)]">
                     <img
                         src={streamUrl}
                         alt={details.name}

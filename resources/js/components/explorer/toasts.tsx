@@ -24,7 +24,7 @@ export function Toasts({ toasts, onDismiss }: ToastsProps) {
     return (
         <div
             aria-live="polite"
-            className="pointer-events-none fixed right-4 bottom-4 z-50 flex w-80 flex-col gap-2"
+            className="pointer-events-none fixed inset-x-3 bottom-3 z-50 flex flex-col gap-2 sm:inset-x-auto sm:right-4 sm:bottom-4 sm:w-80"
         >
             {toasts.map((toast) => {
                 const { icon: Icon, classes } = TONES[toast.tone];

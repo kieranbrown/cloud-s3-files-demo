@@ -69,12 +69,14 @@ export function DiskSwitcher({ disk, disks, className }: DiskSwitcherProps) {
                     <HardDrive className="size-3 text-neutral-500 dark:text-neutral-400" />
                 )}
             </span>
-            <span className="font-medium">{switchingTo ?? disk.name}</span>
-            <span className="text-neutral-400 dark:text-neutral-500">
+            <span className="truncate font-medium">
+                {switchingTo ?? disk.name}
+            </span>
+            <span className="hidden text-neutral-400 xl:inline dark:text-neutral-500">
                 {disk.driver} driver
             </span>
             {disk.root && (
-                <span className="hidden max-w-64 truncate font-mono text-neutral-500 lg:inline dark:text-neutral-400">
+                <span className="hidden max-w-64 truncate font-mono text-neutral-500 2xl:inline dark:text-neutral-400">
                     {disk.root}
                 </span>
             )}
@@ -82,12 +84,12 @@ export function DiskSwitcher({ disk, disks, className }: DiskSwitcherProps) {
     );
 
     const pillClasses =
-        'items-center gap-2 rounded-full border border-neutral-200 py-1 pr-3 pl-1.5 text-xs dark:border-white/10';
+        'h-8 min-w-0 max-w-full items-center gap-2 rounded-full border border-neutral-200 py-1 pr-3 pl-1.5 text-xs dark:border-white/10';
 
     if (disks.length < 2) {
         return (
             <div
-                className={cn('hidden sm:flex', pillClasses, className)}
+                className={cn('flex', pillClasses, className)}
                 title={disk.root ?? undefined}
             >
                 {summary}
@@ -96,10 +98,7 @@ export function DiskSwitcher({ disk, disks, className }: DiskSwitcherProps) {
     }
 
     return (
-        <div
-            ref={container}
-            className={cn('relative hidden sm:block', className)}
-        >
+        <div ref={container} className={cn('relative', className)}>
             <button
                 type="button"
                 aria-haspopup="listbox"
@@ -120,7 +119,7 @@ export function DiskSwitcher({ disk, disks, className }: DiskSwitcherProps) {
                 <div
                     role="listbox"
                     aria-label="Disks"
-                    className="absolute top-full left-0 z-40 mt-1.5 w-72 overflow-hidden rounded-xl border border-neutral-200 bg-white p-1 shadow-xl dark:border-white/10 dark:bg-neutral-900"
+                    className="absolute top-full left-0 z-40 mt-1.5 w-[min(18rem,calc(100vw-1.5rem))] overflow-hidden rounded-xl border border-neutral-200 bg-white p-1 shadow-xl dark:border-white/10 dark:bg-neutral-900"
                 >
                     {disks.map((option) => {
                         const isCurrent = option.name === disk.name;
