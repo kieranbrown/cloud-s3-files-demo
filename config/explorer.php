@@ -16,7 +16,7 @@ return [
 
     'disks' => array_values(array_filter(array_map(
         trim(...),
-        explode(',', (string) env('EXPLORER_DISKS', 's3-files,s3')),
+        explode(',', (string) env('EXPLORER_DISKS', 'local,public')),
     ), fn (string $disk): bool => $disk !== '')),
 
 ];
